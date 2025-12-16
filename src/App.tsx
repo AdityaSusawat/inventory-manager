@@ -1,10 +1,20 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import pb from './lib/pb'
 
 function App() {
   const [count, setCount] = useState(0)
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const products = await pb.collection('products').getFullList()
+      console.log(products)
+    }
+
+    fetchProducts()
+  }, [])
 
   return (
     <>
