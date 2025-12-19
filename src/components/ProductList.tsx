@@ -1,37 +1,7 @@
-import { useEffect, useState } from 'react';
-import pb from '../lib/pb';
-import type { Product } from '../types/Product';
 import '../css/ProductList.css';
+import type { Product } from '../types/Product';
 
-const ProductList = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setLoading(true);
-        // getFullList fetches all records in a single request
-        // requestKey: null disables auto-cancellation conflicts
-        const records = await pb.collection('products').getFullList<Product>({
-          requestKey: null
-        });
-        setProducts(records);
-        setError(null);
-      } catch (err: any) {
-        // Ignore auto-cancelled errors
-        if (err.isAbort) return;
-        
-        console.error('Error fetching products:', err);
-        setError(`Failed to load products: ${err.message || 'Unknown error'}`);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, []);
+const ProductList = ({ products, loading, error }: { products: Product[], loading: boolean, error: string | null }) => {
 
   if (loading) {
     return (
