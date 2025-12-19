@@ -1,0 +1,140 @@
+.product-list-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  color: #2D3748;
+}
+
+.list-header {
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.list-header h1 {
+  font-size: 2rem;
+  margin: 0;
+  color: #1A202C;
+  font-weight: 700;
+}
+
+.subtitle {
+  color: #718096;
+  margin: 0.25rem 0 0 0;
+  font-size: 0.95rem;
+}
+
+.table-responsive {
+  overflow-x: auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.inventory-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.inventory-table th {
+  background-color: #F7FAFC;
+  padding: 1rem 1.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #4A5568;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.inventory-table td {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #EDF2F7;
+  font-size: 0.95rem;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.sku-cell {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  color: #718096;
+  font-size: 0.85rem;
+}
+
+.name-cell {
+  font-weight: 500;
+  color: #2D3748;
+}
+
+.row-low-stock {
+  background-color: #FFF5F5;
+}
+
+.row-low-stock:hover {
+  background-color: #FED7D7 !important;
+}
+
+.inventory-table tbody tr:hover {
+  background-color: #F7FAFC;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badge-success {
+  background-color: #C6F6D5;
+  color: #22543D;
+}
+
+.badge-warning {
+  background-color: #FED7D7;
+  color: #822727;
+}
+
+.status-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  color: #718096;
+}
+
+.status-container.error {
+  color: #E53E3E;
+}
+
+.loader {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #3182CE;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 640px) {
+  .inventory-table th:nth-child(1),
+  .inventory-table td:nth-child(1) {
+    display: none;
+  }
+  
+  .product-list-container {
+    padding: 0 1rem;
+    margin: 1rem auto;
+  }
+}
