@@ -28,7 +28,7 @@ export const useFetchProducts = () => {
         fetchProducts();
     }, [])
 
-    return { products, loading, error };
+    return { products, loading, error, setProducts };
 }
 
 export default useFetchProducts;
