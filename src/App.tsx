@@ -2,13 +2,17 @@ import { useState } from "react";
 import ProductList from "./components/ProductList";
 import "./css/App.css";
 import { useFetchProducts } from "./hooks/useFetchProducts";
-import type { Product } from "./types/Product";
+import type { CreateProduct, Product } from "./types/Product";
 import pb from "./lib/pb";
 
 const AddProduct = ({
   handleAddProduct,
+  submitting,
+  formError,
 }: {
   handleAddProduct: (event: React.FormEvent<HTMLFormElement>) => void;
+  submitting: boolean;
+  formError: string | null;
 }) => {
   return (
     <div>
@@ -18,8 +22,11 @@ const AddProduct = ({
         <input type="number" name="price" placeholder="Price" />
         <input type="number" name="stock" placeholder="Stock" />
         <input type="text" name="category" placeholder="Category" />
-        <button type="submit">Add Product</button>
+        <button type="submit" disabled={submitting}>
+          {submitting ? "Adding..." : "Add Product"}
+        </button>
       </form>
+      {formError && <p className="error">{formError}</p>}
     </div>
   );
 };
@@ -33,14 +40,14 @@ function App() {
 
   const handleAddProduct = async (event: React.FormEvent<HTMLFormElement>) => {
     try {
-      setSubmitting(true);
       event.preventDefault();
+      setSubmitting(true);
       const formData = new FormData(event.currentTarget);
       const name = formData.get("name") as string;
       const price = Number(formData.get("price"));
-      const stock = Number(formData.get("stock"));
+      const stock = Number(formData.get("stock")) || 0;
       const category = formData.get("category") as string;
-      const product: Product = {
+      const product: CreateProduct = {
         name,
         price,
         stock,
@@ -48,9 +55,15 @@ function App() {
         category,
       };
 
+      //Event can get invalidated/nullified after hitting await, store it (DOM reference) in a variable
+      const form = event.currentTarget;
+
       const newProduct = await pb
         .collection("products")
         .create<Product>(product);
+
+      form.reset();
+      setFormError(null);
 
       setProducts((prev) => [...prev, newProduct]);
     } catch (error) {
@@ -63,7 +76,11 @@ function App() {
 
   return (
     <div className="app-container">
-      <AddProduct handleAddProduct={handleAddProduct} />
+      <AddProduct
+        handleAddProduct={handleAddProduct}
+        submitting={submitting}
+        formError={formError}
+      />
       <ProductList products={products} loading={loading} error={error} />
     </div>
   );

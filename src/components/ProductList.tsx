@@ -1,8 +1,15 @@
-import '../css/ProductList.css';
-import type { Product } from '../types/Product';
+import "../css/ProductList.css";
+import type { Product } from "../types/Product";
 
-const ProductList = ({ products, loading, error }: { products: Product[], loading: boolean, error: string | null }) => {
-
+const ProductList = ({
+  products,
+  loading,
+  error,
+}: {
+  products: Product[];
+  loading: boolean;
+  error: string | null;
+}) => {
   if (loading) {
     return (
       <div className="status-container">
@@ -48,18 +55,23 @@ const ProductList = ({ products, loading, error }: { products: Product[], loadin
             </tr>
           </thead>
           <tbody>
-            {products.map((product) => {
+            {products.map((product: Product) => {
               const isLowStock = product.stock <= product.lowStockThreshold;
               return (
-                <tr key={product.id} className={isLowStock ? 'row-low-stock' : ''}>
+                <tr
+                  key={product.id}
+                  className={isLowStock ? "row-low-stock" : ""}
+                >
                   <td className="sku-cell">{product.sku}</td>
                   <td className="name-cell">{product.name}</td>
                   <td className="text-right price-cell">
-                    ${product.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    $
+                    {product.price.toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
                   </td>
-                  <td className="text-right stock-cell">
-                    {product.stock}
-                  </td>
+                  <td className="text-right stock-cell">{product.stock}</td>
                   <td>
                     {isLowStock ? (
                       <span className="badge badge-warning">Low Stock</span>
