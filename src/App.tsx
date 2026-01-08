@@ -33,6 +33,7 @@ const AddProduct = ({
 
 function App() {
   const { products, loading, error, setProducts } = useFetchProducts();
+  const [editingProductId, setEditingProductId] = useState<string | null>(null);
 
   // Move these states to AddProduct component later
   const [submitting, setSubmitting] = useState(false);
@@ -84,6 +85,23 @@ function App() {
     }
   };
 
+  const handleSaveEdit = async (id: string, updates: Partial<Product>) => {
+    try {
+      const updatedProduct = await pb
+        .collection("products")
+        .update<Product>(id, updates);
+
+      setProducts((prev) =>
+        prev.map((product) => (product.id === id ? updatedProduct : product))
+      );
+
+      setEditingProductId(null);
+    } catch (error) {
+      console.error("Failed to update product", error);
+      alert("Failed to update product");
+    }
+  };
+
   return (
     <div className="app-container">
       <AddProduct
@@ -96,6 +114,10 @@ function App() {
         loading={loading}
         error={error}
         onDelete={handleDeleteProduct}
+        onStartEdit={(id: string) => setEditingProductId(id)}
+        onCancelEdit={() => setEditingProductId(null)}
+        onSaveEdit={handleSaveEdit}
+        editingProductId={editingProductId}
       />
     </div>
   );
