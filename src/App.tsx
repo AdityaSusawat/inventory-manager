@@ -74,6 +74,16 @@ function App() {
     }
   };
 
+  const handleDeleteProduct = async (id: string) => {
+    try {
+      await pb.collection("products").delete(id);
+      setProducts((prev) => prev.filter((product) => product.id !== id));
+    } catch (error) {
+      console.error("Failed to delete product", error);
+      alert("Failed to delete product");
+    }
+  };
+
   return (
     <div className="app-container">
       <AddProduct
@@ -81,7 +91,12 @@ function App() {
         submitting={submitting}
         formError={formError}
       />
-      <ProductList products={products} loading={loading} error={error} />
+      <ProductList
+        products={products}
+        loading={loading}
+        error={error}
+        onDelete={handleDeleteProduct}
+      />
     </div>
   );
 }

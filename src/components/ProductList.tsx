@@ -5,10 +5,12 @@ const ProductList = ({
   products,
   loading,
   error,
+  onDelete,
 }: {
   products: Product[];
   loading: boolean;
   error: string | null;
+  onDelete: (id: string) => void;
 }) => {
   if (loading) {
     return (
@@ -52,6 +54,7 @@ const ProductList = ({
               <th className="text-right">Price</th>
               <th className="text-right">Stock</th>
               <th>Status</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -78,6 +81,14 @@ const ProductList = ({
                     ) : (
                       <span className="badge badge-success">In Stock</span>
                     )}
+                  </td>
+                  <td>
+                    <button
+                      className="btn btn-delete"
+                      onClick={() => onDelete(product.id)}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               );
